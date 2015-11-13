@@ -26,7 +26,7 @@ public class CharacterManager : MonoBehaviour {
 			randController=Random.Range (0,2);
 			if(controllers[randController]!=activeController)
 			{
-				Debug.Log ("change active");
+				//Debug.Log ("change active");
 				activeController.SetActive (false);
 				activeController=controllers[randController];
 				activeController.SetActive (true);
