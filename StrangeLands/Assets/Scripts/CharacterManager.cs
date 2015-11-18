@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class CharacterManager : MonoBehaviour {
 
 	public List<GameObject> controllers;
+	public bool[] terrainAssociate;
 	private int controllerCount;
 	public GameObject activeController;
 	private int randController;
@@ -40,6 +41,16 @@ public class CharacterManager : MonoBehaviour {
 				activeController.SetActive (false);
 				activeController=controllers[randController];
 				activeController.SetActive (true);
+			}
+			if(terrainAssociate[activeController])
+			{
+				spikyTerrain.SetActive (true);
+				plainTerrain.SetActive (false);
+			}
+			else
+			{
+				plainTerrain.SetActive (true);
+				spikyTerrain.SetActive (false);
 			}
 			GetComponent<AudioSource> ().PlayOneShot (clips [randController]);
 
