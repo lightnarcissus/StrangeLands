@@ -42,7 +42,7 @@ public class CharacterManager : MonoBehaviour {
 				activeController=controllers[randController];
 				activeController.SetActive (true);
 			}
-			if(terrainAssociate[activeController])
+			if(terrainAssociate[randController])
 			{
 				spikyTerrain.SetActive (true);
 				plainTerrain.SetActive (false);

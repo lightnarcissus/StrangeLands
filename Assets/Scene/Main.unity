@@ -404,6 +404,7 @@ MonoBehaviour:
   - {fileID: 493829822}
   - {fileID: 1168384712}
   - {fileID: 634074406}
+  terrainAssociate: 000000
   activeController: {fileID: 0}
   clips:
   - {fileID: 8300000, guid: 8e0e808e873fb46f4b8cda0889a6b230, type: 3}
@@ -803,6 +804,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfe594a267a64261866d5c2891f506c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charNumber: 0
+  charManager: {fileID: 736251065}
 --- !u!65 &1021668927
 BoxCollider:
   m_ObjectHideFlags: 0
