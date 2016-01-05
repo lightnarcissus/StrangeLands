@@ -11,8 +11,9 @@ public class CharacterManager : MonoBehaviour {
 	private int randController;
 	public AudioClip[] clips;
 	public static int transCount=0;
-
+	public GameObject altSource;
 	private float timer=0f;
+	public GameObject upsideDownTerrain;
 
 	public GameObject plainTerrain;
 	public GameObject spikyTerrain;
@@ -44,31 +45,49 @@ public class CharacterManager : MonoBehaviour {
 			}
 			if(terrainAssociate[randController])
 			{
+				if(EnterHouse.spikeTerrain)
+				{
 				spikyTerrain.SetActive (true);
-				plainTerrain.SetActive (false);
-			}
-			else
-			{
 				plainTerrain.SetActive (true);
-				spikyTerrain.SetActive (false);
+				}
+				else
+				{
+					plainTerrain.SetActive (true);
+					if(Random.value<0.5f)
+					upsideDownTerrain.SetActive (true);
+					else 
+						upsideDownTerrain.SetActive (false);
+					if(Random.value<0.5f)
+						spikyTerrain.SetActive (true);
+					else
+						spikyTerrain.SetActive (false);
+				}
 			}
+
 			GetComponent<AudioSource> ().PlayOneShot (clips [randController]);
 
+			if(Random.value < 0.5f)
+			{
+				altSource.GetComponent<AudioSource>().PlayOneShot (clips[Random.Range(3,6)]);
+			}
+
 		}
 
-		if (transCount > 13 && transCount<25) {
-			spikyTerrain.SetActive (true);
-			plainTerrain.SetActive (false);
-		}
 
-		if (transCount > 25) {
-			spikyTerrain.GetComponent<TerrainCollider>().enabled=false;
-			timer+=Time.deltaTime;
-		}
 
-		if (timer > 10f) {
-			Application.Quit ();
-		}
+//		if (transCount > 13 && transCount<25) {
+//			spikyTerrain.SetActive (true);
+//			plainTerrain.SetActive (false);
+//		}
+//
+//		if (transCount > 25) {
+//			spikyTerrain.GetComponent<TerrainCollider>().enabled=false;
+//			timer+=Time.deltaTime;
+//		}
+//
+//		if (timer > 10f) {
+//			Application.Quit ();
+//		}
 	
 	}
 
