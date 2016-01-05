@@ -31,7 +31,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
             float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
+			float Xon = Mathf.Abs (CrossPlatformInputManager.GetAxis ("Joystick X"))* XSensitivity;
+			float Yon = Mathf.Abs (CrossPlatformInputManager.GetAxis ("Joystick Y"))* YSensitivity;
 
+			if (Xon > 0.05f) {
+				m_CameraTargetRot *= Quaternion.Euler (-Xon, 0f, 0f);
+			}
+			if (Yon > 0.05f) {
+				m_CharacterTargetRot *= Quaternion.Euler (0f, Yon, 0f);
+			}
             m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
             m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
 
