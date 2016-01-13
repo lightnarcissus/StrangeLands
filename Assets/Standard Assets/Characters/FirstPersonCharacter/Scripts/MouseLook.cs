@@ -15,13 +15,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public bool smooth;
         public float smoothTime = 5f;
 
-
+		private string[] controllers; 
         private Quaternion m_CharacterTargetRot;
         private Quaternion m_CameraTargetRot;
 
 
         public void Init(Transform character, Transform camera)
         {
+			controllers=Input.GetJoystickNames();
             m_CharacterTargetRot = character.localRotation;
             m_CameraTargetRot = camera.localRotation;
         }
@@ -29,9 +30,55 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         public void LookRotation(Transform character, Transform camera)
         {
-            float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
-            float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
-			float Xon = Mathf.Abs (CrossPlatformInputManager.GetAxis ("Joystick X"))* XSensitivity;
+            
+
+			if (controllers.Length > 0) {
+				float yRot = CrossPlatformInputManager.GetAxis("Joy X") * XSensitivity;
+				float xRot = CrossPlatformInputManager.GetAxis("Joy Y") * YSensitivity;
+				m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
+				m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
+				
+				if(clampVerticalRotation)
+					m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
+				
+				if(smooth)
+				{
+					character.localRotation = Quaternion.Slerp (character.localRotation, m_CharacterTargetRot,
+					                                            smoothTime * Time.deltaTime);
+					camera.localRotation = Quaternion.Slerp (camera.localRotation, m_CameraTargetRot,
+					                                         smoothTime * Time.deltaTime);
+				}
+				else
+				{
+					character.localRotation = m_CharacterTargetRot;
+					camera.localRotation = m_CameraTargetRot;
+				}
+			}
+			else
+			{
+				float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
+				float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
+				m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
+				m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
+				
+				if(clampVerticalRotation)
+					m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
+				
+				if(smooth)
+				{
+					character.localRotation = Quaternion.Slerp (character.localRotation, m_CharacterTargetRot,
+					                                            smoothTime * Time.deltaTime);
+					camera.localRotation = Quaternion.Slerp (camera.localRotation, m_CameraTargetRot,
+					                                         smoothTime * Time.deltaTime);
+				}
+				else
+				{
+					character.localRotation = m_CharacterTargetRot;
+					camera.localRotation = m_CameraTargetRot;
+				}
+			}
+
+	/*		float Xon = Mathf.Abs (CrossPlatformInputManager.GetAxis ("Joystick X"))* XSensitivity;
 			float Yon = Mathf.Abs (CrossPlatformInputManager.GetAxis ("Joystick Y"))* YSensitivity;
 
 			if (Xon > 0.05f) {
@@ -40,24 +87,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			if (Yon > 0.05f) {
 				m_CharacterTargetRot *= Quaternion.Euler (0f, Yon, 0f);
 			}
-            m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
-            m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
-
-            if(clampVerticalRotation)
-                m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
-
-            if(smooth)
-            {
-                character.localRotation = Quaternion.Slerp (character.localRotation, m_CharacterTargetRot,
-                    smoothTime * Time.deltaTime);
-                camera.localRotation = Quaternion.Slerp (camera.localRotation, m_CameraTargetRot,
-                    smoothTime * Time.deltaTime);
-            }
-            else
-            {
-                character.localRotation = m_CharacterTargetRot;
-                camera.localRotation = m_CameraTargetRot;
-            }
+			*/
+            
         }
 
 
