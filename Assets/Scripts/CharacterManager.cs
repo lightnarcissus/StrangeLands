@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.SceneManagement;
 public class CharacterManager : MonoBehaviour {
 
 	public List<GameObject> controllers;
@@ -14,11 +14,11 @@ public class CharacterManager : MonoBehaviour {
 	public GameObject altSource;
 	private float timer=0f;
 	public GameObject upsideDownTerrain;
-
 	public GameObject plainTerrain;
 	public GameObject spikyTerrain;
 	// Use this for initialization
 	void Start () {
+        
 		UnityEngine.Cursor.visible = false;
 		controllerCount = controllers.Count;
 		for (int i=1; i<controllerCount; i++) {
@@ -75,19 +75,22 @@ public class CharacterManager : MonoBehaviour {
 
 
 
-//		if (transCount > 13 && transCount<25) {
-//			spikyTerrain.SetActive (true);
-//			plainTerrain.SetActive (false);
-//		}
-//
-//		if (transCount > 25) {
-//			spikyTerrain.GetComponent<TerrainCollider>().enabled=false;
-//			timer+=Time.deltaTime;
-//		}
-//
-//		if (timer > 10f) {
-//			Application.Quit ();
-//		}
+        if (transCount > 13 && transCount<25) {
+        spikyTerrain.SetActive (true);
+			plainTerrain.SetActive (false);
+		}
+
+		if (transCount > 25) {
+			spikyTerrain.GetComponent<TerrainCollider>().enabled=false;
+			timer+=Time.deltaTime;
+		}
+
+		if (timer > 10f || Input.GetKeyDown(KeyCode.Escape)) {
+            timer = 0f;
+            StartManager.notStarted = true;
+            SceneManager.LoadScene("StartGame");
+         //   gameObject.SetActive(false);
+        }
 	
 	}
 
